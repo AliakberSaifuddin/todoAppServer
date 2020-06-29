@@ -10,6 +10,9 @@ todoRouter.use(bodyParser.json());
 
 todoRouter.route('/')
 .get((req,res,next) => {
+    console.log(req.user);
+    console.log(req.session.user);
+    
     Todos.find({})
     .then((todos) => {
         res.statusCode = 200;
