@@ -8,7 +8,6 @@ var session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
 
-var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var todoRouter = require('./routes/todos');
 
@@ -16,7 +15,7 @@ const mongoose = require('mongoose');
 
 
 const url = 'mongodb://localhost/TodoDB';
-const connect = mongoose.connect(url, {useNewUrlParser:true});
+const connect = mongoose.connect(process.env.MONGODB_URI || url, {useNewUrlParser:true});
 var cors = require('cors')
 
 connect.then((db) => {
@@ -26,9 +25,10 @@ connect.then((db) => {
 
 
 var app = express();
-app.use(cors({credentials: true, origin: 'http://localhost:3000'}))
+app.use(cors({origin:"http://localhost:3000"}))
 
 // view engine setup
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 app.use(logger('dev'));
@@ -50,10 +50,16 @@ require("./config/passport")(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use('/api/users', usersRouter);
+app.use('/api/todos', todoRouter);
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/todos', todoRouter);
+
+
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -9,6 +9,10 @@ var todoSchema = new Schema({
     status:  {
         type: Boolean,
         required: true
+    },
+    user_id: {
+        type: String,
+        required: true
     }
 }, {
     timestamps: true

@@ -63,7 +63,7 @@ router.post("/login", passport.authenticate('local'),
     (req, res, next)=>{
     //    res.header("csrfToken", req.csrfToken());
             console.log('User Created ', req.user);
-            res.json({message: "Login Successfull"});
+            res.json(req.user);
     }
 );
             

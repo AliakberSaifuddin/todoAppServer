@@ -10,10 +10,10 @@ todoRouter.use(bodyParser.json());
 
 todoRouter.route('/')
 .get((req,res,next) => {
-    console.log(req.user);
-    console.log(req.session.user);
+    // console.log(req.user);
+    // console.log(req.session.user);
     
-    Todos.find({})
+    Todos.find({"user_id":req.params.userid})
     .then((todos) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
@@ -42,7 +42,7 @@ todoRouter.route('/')
 
 todoRouter.route('/:todoId')
 .get((req,res,next) => {
-    Todos.findById(req.params.todoId)
+    Todos.find({"user_id":req.params.todoId})
     .then((todo) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
