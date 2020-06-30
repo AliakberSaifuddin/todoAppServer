@@ -15,7 +15,7 @@ const mongoose = require('mongoose');
 
 
 const url = 'mongodb://localhost/TodoDB';
-const connect = mongoose.connect(process.env.MONGODB_URI || url, {useNewUrlParser:true});
+const connect = mongoose.connect("mongodb+srv://aliakber:aliakber5253@cluster0.89wzb.mongodb.net/Todo" || url, {useNewUrlParser:true});
 var cors = require('cors')
 
 connect.then((db) => {
